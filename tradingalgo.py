@@ -3,7 +3,7 @@ import yfinance as yf
 import pandas as pd
 import ta
 import os
-from publicdotcom import PublicAPI
+import PublicAPI
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -63,7 +63,7 @@ while True:
     data["MA20"] = data["Close"].rolling(20).mean()
     data["MA50"] = data["Close"].rolling(50).mean()
     data["RSI"] = ta.momentum.RSIIndicator(data["Close"], window=14).rsi()
-
+# extracting latest values for decision making
     price_now = data["Close"].iloc[-1]
     price_prev = data["Close"].iloc[-2]
 
@@ -75,7 +75,7 @@ while True:
 
     rsi_now = data["RSI"].iloc[-1]
     rsi_prev = data["RSI"].iloc[-2]
-
+# decision conditions
     cross_above_ma20 = (price_prev < ma20_prev) and (price_now > ma20_now)
     rsi_cross = (rsi_prev < 45) and (rsi_now > 50)
     price_above_ma50 = price_now > ma50_now
